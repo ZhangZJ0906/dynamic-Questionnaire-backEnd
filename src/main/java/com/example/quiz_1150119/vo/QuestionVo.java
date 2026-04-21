@@ -25,6 +25,23 @@ public class QuestionVo {
 	// 不檢查 簡答題 沒選項
 	private List<String> optionsList;
 
+	public QuestionVo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public QuestionVo(int quizId, int questionId, String question, String type, boolean required,
+			List<String> optionsList) {
+		super();
+		this.quizId = quizId;
+		this.questionId = questionId;
+		this.question = question;
+		this.type = type;
+		this.required = required;
+		this.optionsList = optionsList;
+	}
+
 	public int getQuizId() {
 		return quizId;
 	}

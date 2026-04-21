@@ -10,7 +10,9 @@ public enum ReplyMessage {
 	START_DATE_IS＿AFTER_TODAY(400, "start date is after today  "),//
 	TYPE_ERROR(400, "type error"),//
 	OPTIONS_IS_EMPT(400, "option is empty"),//
-	OPTIONS_TRANSFER_ERROR(400, "option transfer error")
+	OPTIONS_TRANSFER_ERROR(400, "option transfer error"),//
+	QUIZ_ID_ERROR(400, "Quiz id error"),//
+	QUIZ_ID_MISMATCH(400, "quiz id is mismatch"),//
 	;
 
 	private int code;

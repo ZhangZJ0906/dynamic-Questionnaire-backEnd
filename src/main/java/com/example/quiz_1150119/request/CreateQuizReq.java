@@ -31,6 +31,7 @@ public class CreateQuizReq {
 	private Quiz quiz;
 
 	/* 限制屬性不是null 長度不為0 */
+	@Valid
 	@NotEmpty(message = ValidMessage.QUESTION_VO_IS_EMPTY)
 	private List<QuestionVo> questionVoList;
 

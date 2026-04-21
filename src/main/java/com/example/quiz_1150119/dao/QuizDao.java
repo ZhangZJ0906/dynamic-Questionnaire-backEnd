@@ -1,6 +1,7 @@
 package com.example.quiz_1150119.dao;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,8 +17,19 @@ public interface QuizDao extends JpaRepository<Quiz, Integer> {
 	@Transactional
 	@Query(value = "insert  into quiz (title,description,start_date,end_date,published) "
 			+ " values (?1,?2,?3,?4,?5)", nativeQuery = true)
-	public void insert(String title,String description , LocalDate startDate,LocalDate enDate,boolean published);
+	public void insert(String title, String description, //
+			LocalDate startDate, LocalDate enDate, boolean published);
 
 	@Query(value = "select Max(id) from quiz ", nativeQuery = true)
 	public int getMaxId();
+
+	@Modifying
+	@Transactional
+	@Query(value = "update quiz set title=?2,description=?3,"
+			+ " start_date=?4,end_date=?5,published=?6 where id =?1 ", nativeQuery = true)
+	public int update(int id, String title, String description, LocalDate startDate, LocalDate enDate,
+			boolean published);
+
+	@Query(value = "select * from quiz ", nativeQuery = true)
+	public List<Quiz> getAll();
 }
