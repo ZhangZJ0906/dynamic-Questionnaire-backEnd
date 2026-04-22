@@ -19,11 +19,13 @@ public interface QuestionDao extends JpaRepository<Qusetion, QusetionId> {
 			+ " values (?1,?2,?3,?4,?5,?6)", nativeQuery = true)
 	public void insert(int quiz_id, int question_id, String question, String type, boolean required, String options);
 
-	@Modifying
-	@Transactional
-	@Query(value = "delete from question where quiz_id   = ?", nativeQuery = true)
-	public void delete(int quiz_id);
+
 
 	@Query(value = "select * from question where quiz_id=? ", nativeQuery = true)
 	public List<Qusetion> getByQuizId(int quizId);
+
+	@Modifying
+	@Transactional
+	@Query(value = "delete from question where quiz_id   in(?) ", nativeQuery = true)
+	public void delete(List<Integer> quizIds);
 }

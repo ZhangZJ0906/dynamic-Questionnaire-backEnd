@@ -30,6 +30,21 @@ public interface QuizDao extends JpaRepository<Quiz, Integer> {
 	public int update(int id, String title, String description, LocalDate startDate, LocalDate enDate,
 			boolean published);
 
+	/* 後台 */
 	@Query(value = "select * from quiz ", nativeQuery = true)
 	public List<Quiz> getAll();
+
+	/* 前台問眷 */
+	@Query(value = "select * from quiz where published = 1", nativeQuery = true)
+	public List<Quiz> getAllPublished();
+
+	@Modifying
+	@Transactional
+	@Query(value = "delete from quiz where id in (?) ", nativeQuery = true)
+	public void delete(List<Integer> quizIds);
+
+	@Modifying
+	@Transactional
+	@Query(value = "update quiz set published=?2 where id =?1 ", nativeQuery = true)
+	public int updatePublishedById(int id, boolean publised);
 }

@@ -16,6 +16,7 @@ import com.example.quiz_1150119.dao.QuizDao;
 import com.example.quiz_1150119.enity.Quiz;
 import com.example.quiz_1150119.enity.Qusetion;
 import com.example.quiz_1150119.request.CreateQuizReq;
+import com.example.quiz_1150119.request.UpdatePublishedReq;
 import com.example.quiz_1150119.request.UpdateQuizReq;
 import com.example.quiz_1150119.response.BasicRes;
 import com.example.quiz_1150119.response.GetQuestionListRes;
@@ -122,7 +123,10 @@ public class QuizService {
 		quizDao.update(quizId, quiz.getTitle(), quiz.getDescription(), //
 				quiz.getStartDate(), quiz.getEndDate(), quiz.isPublished());
 // 先刪除 再新增
-		questionDao.delete(quizId);
+		List<Integer> list = new ArrayList<>();
+		list.add(quizId);
+		questionDao.delete(list);
+//		questionDao.delete(new ArrayList<>(quizId));
 		for (QuestionVo questionVo : questionVoList) {
 
 			try {
@@ -139,9 +143,19 @@ public class QuizService {
 		return new BasicRes(ReplyMessage.SUCCESS.getMessage(), ReplyMessage.SUCCESS.getCode());
 	}
 
-	public GetQuizListRes getList() {
 
-		return new GetQuizListRes(ReplyMessage.SUCCESS.getMessage(), ReplyMessage.SUCCESS.getCode(), quizDao.getAll());
+	/* 前後台 問卷獲取 */
+	public GetQuizListRes getList(boolean isFrontEnd) {
+		if (isFrontEnd) {// 等同於true
+			/*
+			 * 返回 前台列表 狀態為: 已發布
+			 */
+			return new GetQuizListRes(ReplyMessage.SUCCESS.getMessage(), ReplyMessage.SUCCESS.getCode(),
+					quizDao.getAllPublished());
+		}
+
+		return new GetQuizListRes(ReplyMessage.SUCCESS.getMessage(), ReplyMessage.SUCCESS.getCode(), //
+				quizDao.getAll());
 	}
 
 	public GetQuestionListRes getQuestionsByQuizId(int quizId) {
@@ -171,4 +185,26 @@ public class QuizService {
 		}
 		return new GetQuestionListRes(ReplyMessage.SUCCESS.getMessage(), ReplyMessage.SUCCESS.getCode(), questionVos);
 	}
+
+	@Transactional
+	public BasicRes deleteQuiz(List<Integer> quizIdList) {
+
+		quizDao.delete(quizIdList);
+		questionDao.delete(quizIdList);
+		return new BasicRes(ReplyMessage.SUCCESS.getMessage(), ReplyMessage.SUCCESS.getCode());
+	}
+
+	@Transactional
+	public BasicRes updatePublishedReq(UpdatePublishedReq req) {
+		if (req.getId() <= 0) {
+			return new BasicRes(ReplyMessage.QUIZ_ID_ERROR.getMessage(), ReplyMessage.QUIZ_ID_ERROR.getCode());
+		}
+		int row = quizDao.updatePublishedById(req.getId(), req.isPublished());
+
+		if (row <= 0) {
+			return new BasicRes(ReplyMessage.QUIZ_ID_MISMATCH.getMessage(), ReplyMessage.QUIZ_ID_MISMATCH.getCode());
+		}
+		return new BasicRes(ReplyMessage.SUCCESS.getMessage(), ReplyMessage.SUCCESS.getCode());
+	}
+
 }
