@@ -1,5 +1,6 @@
 package com.example.quiz_1150119.dao;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +16,6 @@ public interface UserDao extends JpaRepository<User, String> {
 	@Query(value = "insert ignore into user ( email,  name,  phone,  age) values(?1,?2,?3,?4)", nativeQuery = true)
 	public void insert(String email, String name, String phone, int age);
 
-	@Query(value = "select Count(email) from user where email =?", nativeQuery = true)
-	public int selectCount(String email);
+	@Query(value = "select * from user where email =?1 and name=?2", nativeQuery = true)
+	public User selectCount(String email,String name);
 }

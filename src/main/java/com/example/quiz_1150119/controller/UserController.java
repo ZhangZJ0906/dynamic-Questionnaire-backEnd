@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.quiz_1150119.request.AddInfoReq;
 import com.example.quiz_1150119.response.BasicRes;
+import com.example.quiz_1150119.response.GetUserRes;
 import com.example.quiz_1150119.service.UserService;
 
 /**
@@ -33,7 +34,7 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/login")
-	public BasicRes login(@RequestParam(value = "email") String email) {
-		return userService.login(email);
+	public GetUserRes login(@RequestParam(value = "email") String email,@RequestParam("name") String name) {
+		return userService.login(email,name);
 	}
 }
