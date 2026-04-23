@@ -13,8 +13,8 @@ import com.example.quiz_1150119.constants.ReplyMessage;
 import com.example.quiz_1150119.constants.Type;
 import com.example.quiz_1150119.dao.QuestionDao;
 import com.example.quiz_1150119.dao.QuizDao;
+import com.example.quiz_1150119.enity.Question;
 import com.example.quiz_1150119.enity.Quiz;
-import com.example.quiz_1150119.enity.Qusetion;
 import com.example.quiz_1150119.request.CreateQuizReq;
 import com.example.quiz_1150119.request.UpdatePublishedReq;
 import com.example.quiz_1150119.request.UpdateQuizReq;
@@ -64,8 +64,8 @@ public class QuizService {
 						questionVo.isRequired(), options);
 
 			} catch (Exception e) {
-				return new BasicRes(ReplyMessage.OPTIONS_TRANSFER_ERROR.getMessage(),
-						ReplyMessage.OPTIONS_TRANSFER_ERROR.getCode());
+				return new BasicRes(ReplyMessage.OPTIONS_PARSER_ERROR.getMessage(),
+						ReplyMessage.OPTIONS_PARSER_ERROR.getCode());
 			}
 		}
 		return new BasicRes(ReplyMessage.SUCCESS.getMessage(), ReplyMessage.SUCCESS.getCode());
@@ -118,7 +118,11 @@ public class QuizService {
 		if (checkRes != null) {
 			return checkRes;
 		}
-
+		/* 檢查問卷是否可以更新: 問卷是已發布且今天不能是在開始日期當天以及之後 */
+		if (quizDao.getPublishedQuizAfter(quizId, LocalDate.now()) != null) {// 等於有資料
+			return new BasicRes(ReplyMessage.QUIZ_UPDATE_NOT_ALLOW.getMessage(),
+					ReplyMessage.QUIZ_UPDATE_NOT_ALLOW.getCode());
+		}
 		// 更新quiz
 		quizDao.update(quizId, quiz.getTitle(), quiz.getDescription(), //
 				quiz.getStartDate(), quiz.getEndDate(), quiz.isPublished());
@@ -136,8 +140,8 @@ public class QuizService {
 						questionVo.isRequired(), options);
 
 			} catch (Exception e) {
-				return new BasicRes(ReplyMessage.OPTIONS_TRANSFER_ERROR.getMessage(),
-						ReplyMessage.OPTIONS_TRANSFER_ERROR.getCode());
+				return new BasicRes(ReplyMessage.OPTIONS_PARSER_ERROR.getMessage(),
+						ReplyMessage.OPTIONS_PARSER_ERROR.getCode());
 			}
 		}
 		return new BasicRes(ReplyMessage.SUCCESS.getMessage(), ReplyMessage.SUCCESS.getCode());
@@ -165,9 +169,9 @@ public class QuizService {
 					ReplyMessage.QUIZ_ID_ERROR.getCode());
 		}
 
-		List<Qusetion> question = questionDao.getByQuizId(quizId);
+		List<Question> question = questionDao.getByQuizId(quizId);
 		List<QuestionVo> questionVos = new ArrayList<>();
-		for (Qusetion item : question) {
+		for (Question item : question) {
 // 把 question 自串 options 轉換回 List<String>	
 			try {
 				List<String> optionsList = mapper.readValue(item.getOptions(), new TypeReference<>() {
@@ -179,8 +183,8 @@ public class QuizService {
 
 			} catch (Exception e) {
 				// TODO: handle exception
-				return new GetQuestionListRes(ReplyMessage.OPTIONS_TRANSFER_ERROR.getMessage(),
-						ReplyMessage.OPTIONS_TRANSFER_ERROR.getCode());
+				return new GetQuestionListRes(ReplyMessage.OPTIONS_PARSER_ERROR.getMessage(),
+						ReplyMessage.OPTIONS_PARSER_ERROR.getCode());
 			}
 		}
 		return new GetQuestionListRes(ReplyMessage.SUCCESS.getMessage(), ReplyMessage.SUCCESS.getCode(), questionVos);
@@ -194,6 +198,7 @@ public class QuizService {
 		return new BasicRes(ReplyMessage.SUCCESS.getMessage(), ReplyMessage.SUCCESS.getCode());
 	}
 
+	/* 自己寫的 */
 	@Transactional
 	public BasicRes updatePublishedReq(UpdatePublishedReq req) {
 		if (req.getId() <= 0) {
@@ -206,5 +211,14 @@ public class QuizService {
 		}
 		return new BasicRes(ReplyMessage.SUCCESS.getMessage(), ReplyMessage.SUCCESS.getCode());
 	}
+
+	public GetQuizListRes getQuizById(int id) {
+		if (id <= 0) {
+			return new GetQuizListRes(ReplyMessage.QUIZ_ID_ERROR.getMessage(), ReplyMessage.QUIZ_ID_ERROR.getCode());
+		}
+		return new GetQuizListRes(ReplyMessage.SUCCESS.getMessage(), ReplyMessage.SUCCESS.getCode(), //
+				quizDao.getById(id));
+
+}
 
 }

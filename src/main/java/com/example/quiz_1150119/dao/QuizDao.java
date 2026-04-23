@@ -47,4 +47,16 @@ public interface QuizDao extends JpaRepository<Quiz, Integer> {
 	@Transactional
 	@Query(value = "update quiz set published=?2 where id =?1 ", nativeQuery = true)
 	public int updatePublishedById(int id, boolean publised);
+
+	@Query(value = "select * from quiz where id =? ", nativeQuery = true)
+	public List<Quiz> getById(int id);
+
+	@Query(value = "select * from quiz where id =?1 and start_date<=?2 and end_date>=?2 "//
+			+ " and published=1 ", nativeQuery = true)
+	public Quiz getPublishedQuizBetween(int id, LocalDate today);
+
+	@Query(value = "select * from quiz where id =?1 and start_date<=?2 "
+			+ " and published=1 ", nativeQuery = true)
+	public Quiz getPublishedQuizAfter(int id, LocalDate today);
+
 }

@@ -10,9 +10,15 @@ public enum ReplyMessage {
 	START_DATE_IS＿AFTER_TODAY(400, "start date is after today  "),//
 	TYPE_ERROR(400, "type error"),//
 	OPTIONS_IS_EMPT(400, "option is empty"),//
-	OPTIONS_TRANSFER_ERROR(400, "option transfer error"),//
+	OPTIONS_PARSER_ERROR(400, "option parser error"), //
 	QUIZ_ID_ERROR(400, "Quiz id error"),//
 	QUIZ_ID_MISMATCH(400, "quiz id is mismatch"),//
+	QUIZ_NOT_FOUND(404, " quiz not found "),//
+	ANSWER_IS_REQUIRED(400, " answer is required "),//
+	ONLY_ONe_ANSWER_ALLOW(400, "only one  answer  allow  "), //
+	OPTION_ANSWER_MISMATCH(400, " options answer mismatch "),//
+	ANSWERS_PARSER_ERROR(400, "answers parser error"), //
+	QUIZ_UPDATE_NOT_ALLOW(400, "QUIZ UPDATE NOT ALLOW"), //
 	;
 
 	private int code;

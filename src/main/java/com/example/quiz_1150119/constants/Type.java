@@ -34,13 +34,16 @@ public enum Type {
 //		}
 		return false;
 	}
-	
+
 	public static boolean isChoice(String input) {
-		if (input.equalsIgnoreCase(Type.SINGLE.getType()) || input.equalsIgnoreCase(Type.MUTI.getType())
-		) {
+		if (input.equalsIgnoreCase(Type.SINGLE.getType()) || input.equalsIgnoreCase(Type.MUTI.getType())) {
 			return true;
 
 		}
 		return false;
+	}
+
+	public static boolean isSingleType(String input) {
+		return input.equalsIgnoreCase(Type.SINGLE.getType());
 	}
 }

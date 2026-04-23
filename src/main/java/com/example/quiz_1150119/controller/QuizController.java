@@ -59,9 +59,16 @@ public class QuizController {
 		return quizService.deleteQuiz(quizIdList);
 	}
 
+	/* 自己寫的 */
 	@PostMapping(value = "/update_published")
 	public BasicRes updatePublishedReq(@RequestBody UpdatePublishedReq req) {
 		return quizService.updatePublishedReq(req);
+
+	}
+
+	@GetMapping(value = "/get_quiz_by_id")
+	public GetQuizListRes getQuizById(@RequestParam("quizId") int quizId) {
+		return quizService.getQuizById(quizId);
 
 	}
 

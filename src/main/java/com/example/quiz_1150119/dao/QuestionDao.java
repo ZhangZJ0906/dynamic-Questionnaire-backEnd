@@ -8,11 +8,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.quiz_1150119.enity.Qusetion;
-import com.example.quiz_1150119.enity.QusetionId;
+import com.example.quiz_1150119.enity.Question;
+import com.example.quiz_1150119.enity.QuestionId;
 
 @Repository
-public interface QuestionDao extends JpaRepository<Qusetion, QusetionId> {
+public interface QuestionDao extends JpaRepository<Question, QuestionId> {
 	@Modifying
 	@Transactional
 	@Query(value = "insert  into question (quiz_id,question_id,question,type,required,options) "
@@ -22,7 +22,9 @@ public interface QuestionDao extends JpaRepository<Qusetion, QusetionId> {
 
 
 	@Query(value = "select * from question where quiz_id=? ", nativeQuery = true)
-	public List<Qusetion> getByQuizId(int quizId);
+	public List<Question> getByQuizId(int quizId);
+
+
 
 	@Modifying
 	@Transactional
