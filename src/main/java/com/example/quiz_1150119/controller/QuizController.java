@@ -29,6 +29,7 @@ public class QuizController {
 	@Autowired
 	private QuizService quizService;
 
+
 	@PostMapping(value = "/create")
 	public BasicRes create(@Valid @RequestBody CreateQuizReq req) {
 		return quizService.create(req);
@@ -71,5 +72,6 @@ public class QuizController {
 		return quizService.getQuizById(quizId);
 
 	}
+
 
 }

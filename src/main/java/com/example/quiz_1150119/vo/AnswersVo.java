@@ -12,6 +12,17 @@ public class AnswersVo {
 	private int questionId;
 	private List<String> answerList;
 
+	public AnswersVo(int questionId, List<String> answerList) {
+		super();
+		this.questionId = questionId;
+		this.answerList = answerList;
+	}
+
+	public AnswersVo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getQuestionId() {
 		return questionId;
 	}

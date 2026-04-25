@@ -34,7 +34,7 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/login")
-	public GetUserRes login(@RequestParam(value = "email") String email,@RequestParam("name") String name) {
-		return userService.login(email,name);
+	public GetUserRes login(@RequestParam(value = "email") String email, @RequestParam("name") String name) {
+		return userService.login(email, name);
 	}
 }

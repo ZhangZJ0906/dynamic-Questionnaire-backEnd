@@ -48,7 +48,7 @@ public class UserService {
 		// return new BasicRes(ReplyMessage.EMAIL_NOT_FOUND.getMessage(), //
 		// ReplyMessage.EMAIL_NOT_FOUND.getCode());
 		// }
-		User userInfo = userDao.selectCount(email,name);
+		User userInfo = userDao.selectCount(email, name);
 		if (userInfo == null) {
 			return new GetUserRes(ReplyMessage.EMAIL_NOT_FOUND.getMessage(),
 					ReplyMessage.EMAIL_NOT_FOUND.getCode());
