@@ -133,6 +133,11 @@ public class FillinService {
 			return new FeedBackRes(ReplyMessage.QUIZ_ID_ERROR.getMessage(), ReplyMessage.QUIZ_ID_ERROR.getCode());
 		}
 		List<Fillin> fillinList = fillinDao.getByQuizId(quizId);
+		List<Question> questions = questionDao.getByQuizId(quizId);
+		Map<Integer, String> titleMap = new HashMap<>();
+		for (Question q : questions) {
+			titleMap.put(q.getQuestionId(), q.getQuestion());
+		}
 		/* 將email 和每個USER 填的問題 的答案 轉成map */
 		Map<String, List<AnswersVo>> map = new HashMap<>();
 		Map<String, LocalDate> dateMap = new HashMap<>();
@@ -142,7 +147,8 @@ public class FillinService {
 				List<AnswersVo> answersVoList = new ArrayList<>();
 				List<String> answersList = mapper.readValue(fillin.getAnswers(), new TypeReference<>() {
 				});
-				AnswersVo vo = new AnswersVo(fillin.getQuestionId(), answersList);
+				String title = titleMap.getOrDefault(fillin.getQuestionId(), "未知題目");
+				AnswersVo vo = new AnswersVo(fillin.getQuestionId(), title, answersList);
 				/*
 				 * 查看 map 的 key(email) 是否已存在，若不檢查，迴圈每次新的一run 時， answersVoList 都是新的(空的)，等執行到
 				 * map.put() 方法時，因為 map 對相同的 key 值， 其對應的 value 會後蓋前，所以要把已存在的 key 對應的
@@ -189,6 +195,11 @@ public class FillinService {
 		if (quizId <= 0) {
 			return new StatisticsRes(ReplyMessage.QUIZ_ID_ERROR.getMessage(), ReplyMessage.QUIZ_ID_ERROR.getCode());
 		}
+		List<Question> questions = questionDao.getByQuizId(quizId);
+		Map<Integer, String> titleMap = new HashMap<>();
+		for (Question q : questions) {
+			titleMap.put(q.getQuestionId(), q.getQuestion());
+		}
 		List<Fillin> fillinList = fillinDao.getByQuizId(quizId);
 		/* Map<QuestionId, answersList> */
 		Map<Integer, List<String>> map = new HashMap<>();
@@ -215,7 +226,8 @@ public class FillinService {
 		}
 		List<AnswersVo> answersVoList = new ArrayList<>();
 		for (Integer questionId : map.keySet()) {
-			answersVoList.add(new AnswersVo(questionId, map.get(questionId)));
+			String title = titleMap.getOrDefault(questionId, "未知題目");
+			answersVoList.add(new AnswersVo(questionId, title, map.get(questionId)));
 		}
 		return new StatisticsRes(ReplyMessage.SUCCESS.getMessage(), ReplyMessage.SUCCESS.getCode(), //
 				answersVoList);
