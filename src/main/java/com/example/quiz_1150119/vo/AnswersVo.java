@@ -5,13 +5,12 @@ import java.util.List;
 import com.example.quiz_1150119.constants.ValidMessage;
 
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 
 public class AnswersVo {
 	// 一個answersVo 表是一個問題跟達案
 	@Min(value = 1, message = ValidMessage.QUESTION_ID_ERROR)
 	private int questionId;
-	@NotBlank
+
 	private String questionTitle; // 新增欄位
 	private List<String> answerList;
 
