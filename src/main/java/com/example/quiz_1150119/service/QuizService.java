@@ -39,9 +39,14 @@ public class QuizService {
 	 * 一個方法中若有使用到多個 Dao 或是同一個 Dao 有呼叫多次去對資料作變更(新增、修改、刪除)， 必須要用@Transactional，因為這些
 	 * Dao 的操作，都屬於同一次的操作，因此資料的變更要嘛全部成功， 不然就全部都不成功，回溯到尚未變更之前
 	 */
+	/*
+	 * rollbackFor = Exception.class: 作用在於把原本只有發生 RuntimeException 及其子類別的例外時，
+	 * 
+	 * @Transactional 才會有效用，提升到只要是發生任何的 Exception 時，@Transactional 都會有效用
+	 */
 
-	@Transactional
-	public BasicRes create(CreateQuizReq req) {
+	@Transactional(rollbackFor = Exception.class)
+	public BasicRes create(CreateQuizReq req) throws Exception {
 		Quiz quiz = req.getQuiz();
 		List<QuestionVo> questionVoList = req.getQuestionVoList();
 		BasicRes checkRes = checkDateAndType(quiz, questionVoList);
@@ -64,8 +69,9 @@ public class QuizService {
 						questionVo.isRequired(), options);
 
 			} catch (Exception e) {
-				return new BasicRes(ReplyMessage.OPTIONS_PARSER_ERROR.getMessage(),
-						ReplyMessage.OPTIONS_PARSER_ERROR.getCode());
+//				return new BasicRes(ReplyMessage.OPTIONS_PARSER_ERROR.getMessage(),
+//						ReplyMessage.OPTIONS_PARSER_ERROR.getCode());
+				throw e;
 			}
 		}
 		return new BasicRes(ReplyMessage.SUCCESS.getMessage(), ReplyMessage.SUCCESS.getCode());

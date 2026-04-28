@@ -31,7 +31,7 @@ public class QuizController {
 
 
 	@PostMapping(value = "/create")
-	public BasicRes create(@Valid @RequestBody CreateQuizReq req) {
+	public BasicRes create(@Valid @RequestBody CreateQuizReq req) throws Exception {
 		return quizService.create(req);
 	}
 
