@@ -6,6 +6,7 @@ public enum ReplyMessage {
 	PARAM_NAME_ERROR(400, "Param name error"), //
 	PARAM_AGE_ERROR(400, "Param age error"),//
 	EMAIL_NOT_FOUND(404, "Param email not found "),//
+	EMAIL_IS_REPEAT(400, "email is repeat "), //
 	START_DATE_IS＿AFTER_END_DATE(400, "start date is after end date "),//
 	START_DATE_IS＿AFTER_TODAY(400, "start date is after today  "),//
 	TYPE_ERROR(400, "type error"),//

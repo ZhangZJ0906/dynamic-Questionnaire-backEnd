@@ -30,6 +30,10 @@ public class UserService {
 			return new BasicRes(ReplyMessage.PARAM_AGE_ERROR.getMessage(), //
 					ReplyMessage.PARAM_AGE_ERROR.getCode());
 		}
+		int repeat = userDao.isRepeat(email);
+		if (repeat > 0) {
+			return new BasicRes(ReplyMessage.EMAIL_IS_REPEAT.getMessage(), ReplyMessage.EMAIL_IS_REPEAT.getCode());
+		}
 		userDao.insert(email, name, phone, age);
 		return new BasicRes(ReplyMessage.SUCCESS.getMessage(), ReplyMessage.SUCCESS.getCode());
 	}

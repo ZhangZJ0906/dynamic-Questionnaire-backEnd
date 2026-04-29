@@ -20,4 +20,7 @@ public interface UserDao extends JpaRepository<User, String> {
 
 	@Query(value = "select * from user where email =?", nativeQuery = true)
 	public User getByEmail(String email);
+
+	@Query(value = "select Count(*) from user where email =?", nativeQuery = true)
+	public int isRepeat(String email);
 }
