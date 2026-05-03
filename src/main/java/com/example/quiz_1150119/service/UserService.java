@@ -54,8 +54,8 @@ public class UserService {
 		// }
 		User userInfo = userDao.selectCount(email, name);
 		if (userInfo == null) {
-			return new GetUserRes(ReplyMessage.EMAIL_NOT_FOUND.getMessage(),
-					ReplyMessage.EMAIL_NOT_FOUND.getCode());
+			return new GetUserRes(ReplyMessage.NAME_OR_EMAIL_NOT_FOUND.getMessage(),
+					ReplyMessage.NAME_OR_EMAIL_NOT_FOUND.getCode());
 		}
 
 		return new GetUserRes(ReplyMessage.SUCCESS.getMessage(), ReplyMessage.SUCCESS.getCode(), userInfo.getEmail(),

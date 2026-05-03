@@ -20,6 +20,7 @@ public enum ReplyMessage {
 	OPTION_ANSWER_MISMATCH(400, " options answer mismatch "),//
 	ANSWERS_PARSER_ERROR(400, "answers parser error"), //
 	QUIZ_UPDATE_NOT_ALLOW(400, "QUIZ UPDATE NOT ALLOW"), //
+	NAME_OR_EMAIL_NOT_FOUND(400,"姓名或是email 找不到"),//
 	;
 
 	private int code;
